@@ -1,0 +1,218 @@
+#include <vector>
+#include <iostream>
+#include <windows.h>
+using namespace std;
+
+int m;
+int N;
+
+struct Show {
+   int size;
+   int color;
+            };
+
+void gotoxy(int x, int y) {
+    COORD p = {x,y};
+    SetConsoleCursorPosition ( GetStdHandle( STD_OUTPUT_HANDLE ), p);
+                          }
+
+void showColor(int background, int text) {
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hStdOut, (WORD) ((background << 4) | text));
+                                         }
+enum ConsoleColor {
+Black = 0,
+Blue = 1,
+Green = 2,
+Cyan = 3,
+Red = 4,
+Magenta = 5,
+Brown = 6,
+LightGray = 7,
+DarkGray = 8,
+LightBlue = 9,
+LightGreen = 10,
+LightCyan = 11,
+LightRed = 12,
+LightMagenta = 13,
+Yellow = 14,
+White = 15
+};
+
+void showDisk(Show disk, int a, int b) {
+    gotoxy(a,b);
+    showColor(Black, disk.color);
+    for (int i = 0; i < disk.size; i++) {
+        cout << (char)220;
+                                        }
+    showColor(Black,White);
+                                                    }
+
+void showThemAll(vector < vector <Show> > towers, int pa, int pb, int betw) {
+    int a = pa;
+    int b = pb;
+    gotoxy(a,b);
+    for (int i = 0; i < towers.size(); i++) {
+        for (int j = 0; j < towers[i].size(); j++) {
+            showDisk(towers[i][j], a, b);
+            b--;
+            a++;
+                                                   }
+        b = pb;
+        a += betw + N;
+                                            }
+
+                                                  }
+
+
+hanoi_towers(int N, int sour, int aux, int dest) {
+    if (N == 1) {
+            cout << "Move " << N << " disk" << " from " << sour << " to " << dest << endl;
+            return 0;
+                              }
+
+            hanoi_towers(N - 1, sour, dest, aux);
+            cout << "Move " << N << " disk" << " from " << sour << " to " << dest << endl;
+            hanoi_towers(N - 1, aux, sour, dest);
+                                                 }
+
+
+int main() {
+
+    cout << "Welcome to Tower of Hanoi" << endl;
+    cout << "Press 1 if you want to play by yourself of press 2 to show the sequence of moves:";
+    cin >> m;
+
+    switch (m) {
+
+    case 1: {
+
+   cout << "Insert number of disks: ";
+   cin >> N;
+
+   vector <Show> tower_1;
+   vector <Show> tower_2;
+   vector <Show> tower_3;
+
+   vector < vector <Show> > towers;
+
+   Show disk;
+
+   disk.size = (1 + N)*2;
+   disk.color = Brown;
+
+   tower_1.push_back(disk);
+   tower_2.push_back(disk);
+   tower_3.push_back(disk);
+   for (int i = N; i >= 1; i--) {
+        disk.size = 2*i;
+        disk.color = Green;
+        tower_1.push_back(disk);
+                                }
+
+   towers.push_back(tower_1);
+   towers.push_back(tower_2);
+   towers.push_back(tower_3);
+
+
+   int sour = 0;
+   int dest = 0;
+   Show disk_1;
+   Show disk_2;
+
+   while (true) {
+
+   system("cls");
+   showThemAll(towers, 35, 10, 12);
+
+    gotoxy(0,15);
+    cout << "From ";
+    cin >> sour;
+    cout << "To ";
+    cin >> dest;
+     while (sour < 1 || sour > 3 || dest < 1 || dest > 3){
+        cout << "Error.Try again." << endl;
+        cout << "From ";
+        cin >> sour;
+        cout << "To ";
+        cin >> dest;
+                                                         }
+
+
+         disk_1 = towers[sour - 1][towers[sour - 1].size() - 1];
+         disk_2 = towers[dest - 1][towers[dest - 1].size() - 1];
+
+         if (disk_1.size < disk_2.size) {
+            towers[sour - 1].pop_back();
+            towers[dest - 1].push_back(disk_1);
+                              }
+         else {
+            cout << "Error" << endl;
+              }
+
+    if (towers[1].size() == N + 1 || towers[2].size() == N + 1) {
+        system("cls");
+        showThemAll(towers, 35, 10, 12);
+        gotoxy(0,15);
+        cout << "Victory" << endl;
+        return 0;
+        break;
+                                                       }
+           }
+
+    }
+    case 2: {
+
+   cout << "Insert number of disks: ";
+   cin >> N;
+
+   vector <Show> tower_1;
+   vector <Show> tower_2;
+   vector <Show> tower_3;
+
+   vector < vector <Show> > towers;
+
+   Show disk;
+
+   disk.size = (1 + N)*2;
+   disk.color = Brown;
+
+   tower_1.push_back(disk);
+   tower_2.push_back(disk);
+   tower_3.push_back(disk);
+   for (int i = N; i >= 1; i--) {
+        disk.size = 2*i;
+        disk.color = Green;
+        tower_3.push_back(disk);
+                                }
+
+   towers.push_back(tower_1);
+   towers.push_back(tower_2);
+   towers.push_back(tower_3);
+
+
+   int sour = 1;
+   int aux = 2;
+   int dest = 3;
+   Show disk_1;
+   Show disk_2;
+
+   while (true) {
+
+   system("cls");
+   showThemAll(towers, 35, 10, 12);
+
+    gotoxy(0,15);
+
+    hanoi_towers(N,sour,aux,dest);
+
+    return 0;
+           }
+                 }
+     default: {
+     cout << "" << endl;
+    return 0;
+     break;
+         }
+    }
+}
