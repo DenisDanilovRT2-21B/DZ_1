@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>
+FILE *fin;
+char st[100];
+char way [50];
+int start;
+int top = -1;
+void push(char);
+char pop();
+char text[100],t;
+int f = 1;
+int main() {
+setlocale(0,"");
+printf("Вас приветствует программа CheckBrackets.exe\n");
+printf("Если вы хотите прочитать инструкцию введите 1\n");
+printf("Если вы хотите приступить к работе нажмите соответственно 2 или 3\n");
+scanf("%d",&start);
+switch (start) {
+case 1:
+printf("Добро пожаловать.Данная программа предназначена для проверки текста формата txt на сбалансированные круглые,квадратные,фигурные скобки\n");
+    printf("Для того,чтобы проверить программу на сбалансированные скобки без учета кавычек нажмите 2,затем укажите полный путь расположения вашего\n");
+    printf("файла.Программа проверит ваш текст на балансировку скобок и вышлет результат.Если вы хотите проверить текст на сбалансированные скобки с\n");
+    printf("с учетом кавычек(то есть проверка скобок внутри кавычек осуществляться не будет),то выберите 3.");
+break;
+
+case 2:
+printf("Введите полный путь файла с расширением:");
+    scanf("%s",&way);
+    fin = fopen(way, "r+");
+    if ( NULL != fgets (text, 5000, fin ) )
+                               {
+    printf("%s ",text);
+                               }
+for (int i = 0; i < strlen(text); i++) {
+  if(text[i] == '(' || text[i] == '{'|| text[i] == '[')
+        push(text[i]);
+  if(text[i] == ')' || text[i] == '}' || text[i] == ']') {
+        if(top == -1)
+        f = 0;
+        else {
+            t = pop();
+            if(text[i] == ')' && (t == '[' || t == '{'))
+            f = 0;
+            if(text[i] == '}' && (t == '(' || t == '['))
+            f = 0;
+            if (text[i] == ']' && (t == '{' || t == '('))
+            f = 0;
+             }
+                                                 }
+                              }
+if ( top >= 0)
+f = 0;
+if (f == 0)
+printf("Скобки несбалансированы\n");
+else
+printf("Скобки сбалансированы\n");
+fclose(fin);
+return 0;
+break;
+case 3:
+printf("Введите полный путь файла с расширением:");
+    scanf("%s",&way);
+    fin = fopen(way, "r+");
+    if ( NULL != fgets (text, 5000, fin ) )
+                               {
+    printf("%s ",text);
+                               }
+for (int i = 0; i < strlen(text); i++) {
+                int check_quote;
+        if (text[i] =='\"')
+        check_quote++;
+
+        if ((check_quote % 2 == 0) || (check_quote == 0)) {
+
+  if(text[i] == '(' || text[i] == '{'|| text[i] == '[')
+        push(text[i]);
+  if(text[i] == ')' || text[i] == '}' || text[i] == ']') {
+        if(top == -1)
+        f = 0;
+        else {
+            t = pop();
+            if(text[i] == ')' && (t == '[' || t == '{'))
+            f = 0;
+            if(text[i] == '}' && (t == '(' || t == '['))
+            f = 0;
+            if (text[i] == ']' && (t == '{' || t == '('))
+            f = 0;
+             }
+
+                                                 }
+                              }
+        }
+if ( top >= 0)
+f = 0;
+if (f == 0)
+printf("Скобки несбалансированы\n");
+else
+printf("Скобки сбалансированы\n");
+fclose(fin);
+return 0;
+break;
+            }
+                 }
+
+  void push(char text) {
+  st[++top] = text;
+                   }
+char pop() {
+return st[top--];
+           }
