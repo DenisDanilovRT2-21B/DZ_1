@@ -1,0 +1,45 @@
+#include <iostream>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+class Neuron {
+public:
+    float w,b;
+
+    Neuron() : w(2.0), b(1.0) {}
+
+    float getActIdenity(const float& x) {
+         return x;
+                                        }
+
+    float getActSigm(const float& x) {
+         return exp(x)/(1 + exp(x));
+                                     }
+
+    float getActReLu(const float& x) {
+         return max(0.0f,x);
+                                     }
+
+    float getActTigh(const float& x) {
+          return (exp(2*x) - 1) / (exp(2*x) + 1);
+                                     }
+
+    float Forward(const float& x) {
+    const float sum = w * x + b;
+    return getActSigm(sum); // getActReLu(sum),getActTigh(sum)
+                                  }
+};
+
+ main() {
+ setlocale(0,"");
+ cout << "Работа нейрона:" << endl;
+ Neuron go_neuron;
+ cout << go_neuron.Forward(0.-5) << endl;
+ cout << go_neuron.Forward(0.0) << endl;
+ cout << go_neuron.Forward(0.5) << endl;
+ cout << go_neuron.Forward(1.0) << endl;
+     return 0;
+            }
+            
+            
