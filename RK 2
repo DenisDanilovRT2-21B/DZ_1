@@ -41,5 +41,63 @@ public:
  cout << go_neuron.Forward(1.0) << endl;
      return 0;
             }
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------            
+#include <iostream>
+#include <math.h>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+class Neuron {
+private:
+   vector <double> weight();
+public:
+    double b = 1.0;
+    double w = 2.0; // изначальный вес
+    vector <double> x;
+
+    Neuron(int number,float b){
+      vector <float> x(number,b);
+      getActSigm(getActIdenity(x));
+      cout << "Выходное значение:" << endl;
+                            }
+
+    float getActIdenity(vector <float&> x) {    // метод,суммирующий все входы и умножающий на вес
+           float sum = 0;
+    for (int i = 0; i < x.size(); i++) {
+        sum += x[i] * w;
+                                       }
+         return sum;
+                                           }
+
+    float getActSigm(float& x) {
+         return exp(x)/(1 + exp(x));
+                                     }
+
+
+    double getActTigh(float& x) {
+          return (exp(2*x) - 1) / (exp(2*x) + 1);
+                                 }
+    double getSum(double& x, int number) {
+          double sum = 0;
+          for (int i = 0; i < number; i++) {
+
+            return 0;
+                                           }
+                                         }
+
+};
+
+ main() {
+ setlocale(0,"");
+
+ cout << "Работа нейрона:" << endl;
+ Neuron go_neuron(3,1);
+ /* cout << go_neuron.Forward(0.-5) << endl;
+ cout << go_neuron.Forward(0.0) << endl;
+ cout << go_neuron.Forward(0.5) << endl;
+ cout << go_neuron.Forward(1.0) << endl;  */
+     return 0;
+            }
             
             
