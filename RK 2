@@ -1,4 +1,3 @@
-          
 #include <iostream>
 #include <math.h>
 #include <algorithm>
@@ -7,54 +6,40 @@ using namespace std;
 
 class Neuron {
 private:
-   vector <double> weight();
 public:
-    double b = 1.0;
-    double w = 2.0; // изначальный вес
+    double w = 2.0;
     vector <double> x;
-
-    Neuron(int number,float b){
+    Neuron(int number,float b,int size_w,float c){          // конструктор, где number-количество входов, b-значения входов, size_w-количество коэффициентов, c-значения коэффициентов
       vector <float> x(number,b);
-      getActSigm(getActIdenity(x));
-      cout << "Выходное значение:" << endl;
-                            }
+      vector <float> weight(size_w,c);
+      getActSigm(getActIdenity(x,weight));
+      cout << "Выходное значение:" << getActSigm(getActIdenity(x,weight)) << endl;
+                                                 }
 
-    float getActIdenity(vector <float&> x) {    // метод,суммирующий все входы и умножающий на вес
+    float getActIdenity(vector <float> x, vector <float> weight) {
            float sum = 0;
     for (int i = 0; i < x.size(); i++) {
-        sum += x[i] * w;
+        sum += x[i] * weight[i];
                                        }
          return sum;
-                                           }
+                                                                 }
 
-    float getActSigm(float& x) {
+    float getActSigm(float x) {
          return exp(x)/(1 + exp(x));
-                                     }
+                              }
 
 
-    double getActTigh(float& x) {
+    double getActTigh(float x) {
           return (exp(2*x) - 1) / (exp(2*x) + 1);
-                                 }
-    double getSum(double& x, int number) {
-          double sum = 0;
-          for (int i = 0; i < number; i++) {
+                               }
 
-            return 0;
-                                           }
-                                         }
 
 };
 
  main() {
  setlocale(0,"");
-
- cout << "Работа нейрона:" << endl;
- Neuron go_neuron(3,1);
- /* cout << go_neuron.Forward(0.-5) << endl;
- cout << go_neuron.Forward(0.0) << endl;
- cout << go_neuron.Forward(0.5) << endl;
- cout << go_neuron.Forward(1.0) << endl;  */
+ Neuron go_neuron(3,-0.1,3,0.2);                      // 3 входа по -0.1 значению каждый, 3 весовых коэффициента по 0.2 значению каждый
+ Neuron go_neuron1(0,0,0,0);                         // 0 входов и 0 коэффициентов
+ Neuron go_neuron2(2,2,3,4);                         // 2 входа по 2 значения каждый, 3 коэффициента по 4 значения каждый (лишний коэффициент автоматически отбрасывается)
      return 0;
             }
-            
-            
