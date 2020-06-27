@@ -75,7 +75,7 @@ public:
  setlocale(0,"");
  Neuron go_neuron(3,-0.1,3,0.2);                          // 3 входа по -0.1 значению каждый, 3 весовых коэффициента по 0.2 значению каждый
  go_neuron.ShowOutput();
- go_neuron.ChangeInput(1,1);                              // меняем значение первого хода на 1
+ go_neuron.ChangeInput(1,1);                              // меняем значение первого входа на 1
  go_neuron.ChangeWeight(2,0.1);                           // меняем значение второго весового коэффициента на 0.1
  go_neuron.CalculateChanged();
  go_neuron.ShowOutput();
