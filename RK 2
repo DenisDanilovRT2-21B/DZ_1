@@ -6,14 +6,23 @@ using namespace std;
 
 class Neuron {
 private:
+    float result;
 public:
-    double w = 2.0;
-    vector <double> x;
+    std::vector <float> x;
+    std::vector <float> weight;
     Neuron(int number,float b,int size_w,float c){          // конструктор, где number-количество входов, b-значения входов, size_w-количество коэффициентов, c-значения коэффициентов
-      vector <float> x(number,b);
-      vector <float> weight(size_w,c);
-      getActSigm(getActIdenity(x,weight));
-      cout << "Выходное значение:" << getActSigm(getActIdenity(x,weight)) << endl;
+      if ((number < 0) || (size_w < 0)) {
+        cout << "Ошибка" << endl;
+                                        }
+      else {
+      vector <float> x1(number,b);
+      vector <float> weight1(size_w,c);
+      getActSigm(getActIdenity(x1,weight1));
+      x = x1;
+      weight = weight1;
+      cout << "Выходное значение:" << getActSigm(getActIdenity(x1,weight1)) << endl;
+      result = getActSigm(getActIdenity(x1,weight1));
+           }
                                                  }
 
     float getActIdenity(vector <float> x, vector <float> weight) {
@@ -33,13 +42,45 @@ public:
           return (exp(2*x) - 1) / (exp(2*x) + 1);
                                }
 
+    void ShowOutput() {
+          cout << "Выходное значение:" << result << endl;
+                      }
+    void ChangeInput(int j, float valueInput) {
+    if (((j - 1) > x.size()) || (j < 0)) {
+        cout << "Ошибка" << endl;
+                                          }
+        else {
+      x[j - 1] = valueInput;
+             }
+                                              }
+    void ChangeWeight(int k, float valueWeight) {
+     if (((k - 1) > weight.size()) || (k < 0)) {
+        cout << "Ошибка" << endl;
+                                               }
+     else {
+      weight[k - 1] = valueWeight;
+          }
+                                                }
+    float CalculateChanged() {
+    getActSigm(getActIdenity(x,weight));
+    result = getActSigm(getActIdenity(x,weight));
+    return result;
+                             }
+
+
 
 };
 
  main() {
  setlocale(0,"");
- Neuron go_neuron(3,-0.1,3,0.2);                      // 3 входа по -0.1 значению каждый, 3 весовых коэффициента по 0.2 значению каждый
- Neuron go_neuron1(0,0,0,0);                         // 0 входов и 0 коэффициентов
+ Neuron go_neuron(3,-0.1,3,0.2);                          // 3 входа по -0.1 значению каждый, 3 весовых коэффициента по 0.2 значению каждый
+ go_neuron.ShowOutput();
+ go_neuron.ChangeInput(1,1);                              // меняем значение первого хода на 1
+ go_neuron.ChangeWeight(2,0.1);                           // меняем значение второго весового коэффициента на 0.1
+ go_neuron.CalculateChanged();
+ go_neuron.ShowOutput();
+ Neuron go_neuron1(0,0,0,0);                         // 0 входов и ноль коэффициентов
  Neuron go_neuron2(2,2,3,4);                         // 2 входа по 2 значения каждый, 3 коэффициента по 4 значения каждый (лишний коэффициент автоматически отбрасывается)
+ Neuron go_neuron3(-2,1,4,0.6);
      return 0;
             }
