@@ -1,0 +1,48 @@
+#include <iostream>
+
+using namespace std;
+
+class Coord {
+public:
+int x,y;
+int get_x() {
+cout << "x = " << x << endl;
+return x;
+            }
+int get_y() {
+cout << "y = " << y << endl;
+return y;
+            }
+
+Coord& operator= (const Coord &second) {
+     if (this == &second) {
+        return *this;
+                          }
+      else {
+      x = -second.x;
+      y = -second.y;
+        return *this;
+           }
+                                        }
+
+Coord(int ax,int ay) {
+    x = ax;
+    y = ay;
+                     }
+Coord() {
+    x = 0;
+    y = 0;
+        }
+
+            };
+
+int main() {
+Coord c1(10,20);
+Coord c2(5,10);
+c1.get_x();
+c1.get_y();
+c2 = c1;
+c2.get_x();
+c2.get_y();
+return 0;
+           }
